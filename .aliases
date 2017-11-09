@@ -1,0 +1,78 @@
+# Easier navigation: .., ..., ...., ....., ~ and -
+#
+alias cc="cd /cygdrive/c"
+alias cy="cd /cygdrive/c/workspace"
+alias ct="cd /tmp"
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+alias ~="cd ~" 
+alias -- -="cd -"
+
+# Import colors
+eval `dircolors ~/.dircolors`
+
+# See if a process is running
+alias p='ps -ef | grep -v grep | grep'
+
+# Detect which `ls` flavor is in use
+colorflag="--color"
+
+# Import colors
+eval `dircolors ~/.dircolors`
+
+# List all files colorized in long format
+alias l="ls -lh ${colorflag}"
+
+# List all files colorized in long format, including dot files
+alias la="ls -lah ${colorflag}"
+
+# List all files colorized in long format, excluding dot files
+alias ll="ls -lh ${colorflag}"
+
+# List only directories
+alias lsd='ls -lh ${colorflag} | grep "^d"'
+
+# Always use color output for `ls`
+#alias ls="ls ${colorflag}"
+
+# Enable aliases to be sudo’ed
+alias sudo='sudo '
+
+# IP addresses
+alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
+alias localip="ipconfig getifaddr en1"
+alias ips="ifconfig -a | grep -o 'inet6\? \(\([0-9]\+\.[0-9]\+\.[0-9]\+\.[0-9]\+\)\|[a-fA-F0-9:]\+\)' | sed -e 's/inet6* //'"
+
+alias pg='ps aux | grep'
+alias vprof='vim ~/.bash_profile'
+alias valias='vim ~/.aliases'
+alias reload='source ~/.bash_profile'
+
+alias lock='rundll32.exe user32.dll,LockWorkStation'
+
+# encrypt / decrypt
+alias encry="openssl rsautl -inkey ~/.ssh/key -encrypt"
+alias decry="openssl rsautl -inkey ~/.ssh/key -decrypt"
+
+function ssh_login()
+{
+		if [ $# -ne 1 ]
+		then
+			echo "Waiting host name to login in."
+			return 1
+		fi
+		host=$1
+		if [ ! -f ~/.ssh/pw/*@${host} ]
+		then
+			echo "Encrypted password file ~/.ssh/pw/*@${host} not exists"
+			return 1	
+		fi
+		fullname=`basename $(ls  ~/.ssh/pw/*@${host})`
+		user=`echo $fullname | cut -d \@ -f1`
+		echo Login host[${host}] user: ${user}  fullname: ${fullname}
+		sshpass -p $(openssl rsautl -inkey ~/.ssh/key -decrypt < ~/.ssh/pw/*@${host} ) ssh ${user}@${host}
+}
+alias goto='ssh_login'
+
