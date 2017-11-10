@@ -4,6 +4,7 @@ curl -LOk https://github.com/skyvinyu/env/archive/master.zip
 #| tar --strip-components=1 -C ~ -zx
 unzip master.zip
 cp -r env-master/.* ~
+cp -r env-master/* ~
 rm master.zip
 rm -r env-master
 
