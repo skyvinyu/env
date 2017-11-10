@@ -1,5 +1,5 @@
 # env
-This repository is mostly for personalized configuration that easy install on any environment. Not really for other people. 
+This repository is mostly for personalized configuration that easy install on any environment. 
 
 + Installation
 
