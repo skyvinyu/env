@@ -1,0 +1,6 @@
+GRN="\e[32m"
+BLU="\e[34m"
+BRED="\e[41m"
+BGRN="\e[42m"
+BBLU="\e[44m"
+DFL="\e[0m"
