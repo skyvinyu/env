@@ -1,6 +1,6 @@
 #!/bin/bash
 
-curl -sSL https://github.com/skyvin/env/archive/master.zip 
+curl -LOk https://github.com/skyvinyu/env/archive/master.zip
 #| tar --strip-components=1 -C ~ -zx
 unzip master.zip
 mv env-master/.* ~
