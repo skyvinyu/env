@@ -3,7 +3,7 @@ This repository is mostly for personalized configuration that easy install on an
 
 + Installation
 
-curl -LOk master/install.sh | bash && source ~/.bashrc
+curl -LOk https://raw.githubusercontent.com/skyvinyu/env/master/install.sh | bash && source ~/.bashrc
 
 + Acknowlege
 
