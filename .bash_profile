@@ -52,4 +52,4 @@ fi
 
 #tmux 
 
-# vim: set filetype=bash:
+# vim: set filetype=sh:

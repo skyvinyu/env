@@ -123,4 +123,4 @@ source ~/.zsh/plugins/npm.zsh
 source ~/.zsh/plugins/symfony2.zsh
 source ~/.zsh/plugins/z.sh
 
-# vim: set filetype=bash:
+# vim: set filetype=sh:

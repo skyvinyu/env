@@ -50,4 +50,50 @@ function gh() {
         git clone git@github.com:$1.git
 }
 
-# vim: set filetype=bash:
+# ssh login without loginpass
+function ssh_login()
+{
+		if [ $# -ne 1 ]
+		then
+			echo "Waiting host name to login in."
+			return 1
+		fi
+		host=$1
+		if [ ! -f ~/.ssh/pw/*@${host} ]
+		then
+			echo "Encrypted password file ~/.ssh/pw/*@${host} not exists"
+			return 1	
+		fi
+		fullname=`basename $(ls  ~/.ssh/pw/*@${host})`
+		user=`echo $fullname | cut -d \@ -f1`
+		echo Login host[${host}] user: ${user}  fullname: ${fullname}
+		sshpass -p $(openssl rsautl -inkey ~/.ssh/key -decrypt < ~/.ssh/pw/*@${host} ) ssh ${user}@${host}
+}
+
+# scp without login
+function sshpass_scp() 
+{
+		if [ $# -ne 2 ]
+		then
+			echo "Waiting src and dst to copy files. Args:$@"
+			return 1
+		fi
+		src=$1
+		dst=$2
+	
+		dst_host=${dst%%:*}
+		dst_host=${dst_host##*@}
+		if [ "${dst_host}" = "${dst}" ]
+		then
+			echo "Host name not found: $dst"
+			return 1	
+		fi
+
+		#echo src=$src dst=$dst host=$dst_host	
+
+		exp="sshpass -p $(openssl rsautl -inkey ~/.ssh/key -decrypt < ~/.ssh/pw/*@${dst_host} ) scp -pr ${src} ${dst}"
+		#echo $exp
+		eval $exp
+}
+
+# vim: set filetype=sh:

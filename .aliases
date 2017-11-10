@@ -56,23 +56,5 @@ alias lock='rundll32.exe user32.dll,LockWorkStation'
 alias encry="openssl rsautl -inkey ~/.ssh/key -encrypt"
 alias decry="openssl rsautl -inkey ~/.ssh/key -decrypt"
 
-function ssh_login()
-{
-		if [ $# -ne 1 ]
-		then
-			echo "Waiting host name to login in."
-			return 1
-		fi
-		host=$1
-		if [ ! -f ~/.ssh/pw/*@${host} ]
-		then
-			echo "Encrypted password file ~/.ssh/pw/*@${host} not exists"
-			return 1	
-		fi
-		fullname=`basename $(ls  ~/.ssh/pw/*@${host})`
-		user=`echo $fullname | cut -d \@ -f1`
-		echo Login host[${host}] user: ${user}  fullname: ${fullname}
-		sshpass -p $(openssl rsautl -inkey ~/.ssh/key -decrypt < ~/.ssh/pw/*@${host} ) ssh ${user}@${host}
-}
 alias goto='ssh_login'
-
+alias ycp='sshpass_scp'

@@ -28,4 +28,4 @@ export MANPAGER="less -X"
 # Better MySQL prompt
 export MYSQL_PS1="\u@\h \d > "
 
-# vim: set filetype=bash:
+# vim: set filetype=sh:
