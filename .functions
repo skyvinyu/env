@@ -91,23 +91,31 @@ function sshpass_scp()
 			return 1	
 		elif [ "${dst_host}" != "${dst}" -a "${src_host}" != "${src}" ]
 		then
-			echo "Error: Host name found for SRC[$src_host] and DST[$dst_host]"
-			return 1
+			ycp_dir=/tmp/ycp/
+			mkdir -p ${ycp_dir}
+			host=$(ls ~/.ssh/pw/*@${src_host})
+			host=${host##*/}:${src##*:}
+			file=${src##*/}
+			echo scp $file from $host
+			sshpass -p $(openssl rsautl -inkey ~/.ssh/key -decrypt < ~/.ssh/pw/*@${src_host} ) scp -pr ${host} /tmp/ycp/
+			host=$(ls ~/.ssh/pw/*@${dst_host})
+			host=${host##*/}:${dst##*:}
+			echo scp $file to $host
+			sshpass -p $(openssl rsautl -inkey ~/.ssh/key -decrypt < ~/.ssh/pw/*@${dst_host} ) scp -pr /tmp/ycp/ ${host}
 		elif [ "${src_host}" != "${src}" ]
 		then
-			host=${src_host}
+			src_fullpath=$(ls ~/.ssh/pw/*@${src_host})
+			src_fullpath=${src_fullpath##*/}:${src##*:}
+			sshpass -p $(openssl rsautl -inkey ~/.ssh/key -decrypt < ~/.ssh/pw/*@${src_host} ) scp -pr ${src_fullpath} ${dst}
 		elif [  "${dst_host}" != "${dst}" ]
 		then
-			host=${dst_host}
+			dst_fullpath=$(ls ~/.ssh/pw/*@${dst_host})
+			dst_fullpath=${dst_fullpath##*/}:${dst##*:}
+			sshpass -p $(openssl rsautl -inkey ~/.ssh/key -decrypt < ~/.ssh/pw/*@${dst_host} ) scp -pr ${src} ${dst_fullpath}
 		else
 			echo "Unknown Error: $@"
 		fi
 
-		#echo src=$src dst=$dst host=$dst_host	
-
-		exp="sshpass -p $(openssl rsautl -inkey ~/.ssh/key -decrypt < ~/.ssh/pw/*@${host} ) scp -pr ${src} ${dst}"
-		#echo $exp
-		eval $exp
 }
 
 # vim: set filetype=sh:

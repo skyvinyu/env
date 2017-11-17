@@ -51,7 +51,7 @@ alias valias='vim ~/.aliases'
 alias reload='source ~/.bash_profile'
 
 alias lock='rundll32.exe user32.dll,LockWorkStation'
-alias shutdown='shutdown /r /t 0'
+alias shutdown='shutdown /t 0'
 
 # encrypt / decrypt
 alias encry="openssl rsautl -inkey ~/.ssh/key -encrypt"
