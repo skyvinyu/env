@@ -1,0 +1,31 @@
+#!/bin/bash
+[ $# -ne 2 ] && exit 1
+f1="${1}"
+f2="${2}"
+mkdir -p /tmp/rvimdiff
+grep -q '.:[~/]' <<< "${f1}"
+r1=$?
+
+grep -q '.:[~/]' <<< "${f2}"
+r2=$?
+
+if [ $r1 -eq 0 ];
+then
+	rf1=/tmp/rvimdiff/${f1##*\/}.${f1%%:*}
+	ycp ${f1} ${rf1}
+else
+	rf1="${f1}"
+fi
+if [ $r2 -eq 0 ];
+then
+	rf2=/tmp/rvimdiff/${f2##*\/}.${f2%%:*}
+	ycp ${f2} ${rf2}
+else
+	rf2="${f2}"
+fi
+
+vimdiff ${rf1} ${rf2}
+
+#[ $r1 -eq 0 ] && rm ${rf1}
+#[ $r2 -eq 0 ] && rm ${rf2}
+

@@ -1,0 +1,43 @@
+#!/bin/bash
+if [ $# -ne 2 ]
+then
+echo "Waiting src and dst to copy files. Args:$@"
+return 1
+fi
+src=$1
+dst=$2
+
+src_host=${src%%:*}
+src_host=${src_host##*@}
+dst_host=${dst%%:*}
+dst_host=${dst_host##*@}
+if [ "${dst_host}" = "${dst}" -a "${src_host}" = "${src}" ]
+then
+echo "Error: No Host name found for SRC[$src] or DST[$dst]"
+return 1
+elif [ "${dst_host}" != "${dst}" -a "${src_host}" != "${src}" ]
+then
+ycp_dir=/tmp/ycp/
+mkdir -p ${ycp_dir}
+host=$(ls ~/.ssh/pw/*@${src_host})
+					 host=${host##*/}:${src##*:}
+file=${src##*/}
+echo scp $file from $host
+sshpass -p $(openssl rsautl -inkey ~/.ssh/key -decrypt < ~/.ssh/pw/*@${src_host} ) scp -pr ${host} /tmp/ycp/${file}
+																	host=$(ls ~/.ssh/pw/*@${dst_host})
+																	host=${host##*/}:${dst##*:}
+echo scp $file to $host
+sshpass -p $(openssl rsautl -inkey ~/.ssh/key -decrypt < ~/.ssh/pw/*@${dst_host} ) scp -pr /tmp/ycp/${file} ${host}
+																	elif [ "${src_host}" != "${src}" ]
+																	then
+																	src_fullpath=$(ls ~/.ssh/pw/*@${src_host})
+																	src_fullpath=${src_fullpath##*/}:${src##*:}
+sshpass -p $(openssl rsautl -inkey ~/.ssh/key -decrypt < ~/.ssh/pw/*@${src_host} ) scp -pr ${src_fullpath} ${dst}
+																	elif [  "${dst_host}" != "${dst}" ]
+																	then
+																	dst_fullpath=$(ls ~/.ssh/pw/*@${dst_host})
+																	dst_fullpath=${dst_fullpath##*/}:${dst##*:}
+sshpass -p $(openssl rsautl -inkey ~/.ssh/key -decrypt < ~/.ssh/pw/*@${dst_host} ) scp -pr ${src} ${dst_fullpath}
+																	else
+																	echo "Unknown Error: $@"
+																	fi
