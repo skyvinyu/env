@@ -5,4 +5,4 @@ hg_branch() {
 	fi
 }
 
-# vim: set filetype=bash:
+# vim: set filetype=sh:

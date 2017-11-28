@@ -97,11 +97,11 @@ function sshpass_scp()
 			host=${host##*/}:${src##*:}
 			file=${src##*/}
 			echo scp $file from $host
-			sshpass -p $(openssl rsautl -inkey ~/.ssh/key -decrypt < ~/.ssh/pw/*@${src_host} ) scp -pr ${host} /tmp/ycp/
+			sshpass -p $(openssl rsautl -inkey ~/.ssh/key -decrypt < ~/.ssh/pw/*@${src_host} ) scp -pr ${host} /tmp/ycp/${file}
 			host=$(ls ~/.ssh/pw/*@${dst_host})
 			host=${host##*/}:${dst##*:}
 			echo scp $file to $host
-			sshpass -p $(openssl rsautl -inkey ~/.ssh/key -decrypt < ~/.ssh/pw/*@${dst_host} ) scp -pr /tmp/ycp/ ${host}
+			sshpass -p $(openssl rsautl -inkey ~/.ssh/key -decrypt < ~/.ssh/pw/*@${dst_host} ) scp -pr /tmp/ycp/${file} ${host}
 		elif [ "${src_host}" != "${src}" ]
 		then
 			src_fullpath=$(ls ~/.ssh/pw/*@${src_host})

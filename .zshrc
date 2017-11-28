@@ -1,6 +1,6 @@
 HISTFILE=~/.histfile
-HISTSIZE=100000
-SAVEHIST=100000
+HISTSIZE=1000
+SAVEHIST=1000
 setopt appendhistory autocd extendedglob
 setopt promptsubst
 bindkey -e

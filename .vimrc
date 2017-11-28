@@ -75,7 +75,7 @@ if exists("&relativenumber")
 endif
 " Start scrolling three lines before the horizontal window border
 set scrolloff=3
-
+set diffopt+=iwhite
 " Relative numbers aren't much use in Insert mode, so show absolute numbers
 if exists("&relativenumber")
 	autocmd InsertEnter * :set number
